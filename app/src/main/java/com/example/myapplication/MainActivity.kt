@@ -54,6 +54,8 @@ class MainActivity : AppCompatActivity()  {
 
 
     private fun drawCard(cardHeight:Int){
+        var adapter = GridLayoutManager(cardHeight)
+        binding.grid.adapter = adapter
         binding.grid.layoutManager = GridLayoutManager(this, rowAndColumn)
     }
     private fun checkValidation(gridNumber: Double): Double{
