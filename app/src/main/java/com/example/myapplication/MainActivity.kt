@@ -5,6 +5,8 @@ import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.myapplication.adapter.GridRecyclerView
 import com.example.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity()  {
@@ -46,16 +48,15 @@ class MainActivity : AppCompatActivity()  {
                     val cardHeight = (frameLayout - editContainer) / rowAndColumn
 
                     binding.grid.viewTreeObserver.removeOnGlobalLayoutListener(this)
+
+                    var adapter = GridRecyclerView(cardHeight)
                     drawCard(cardHeight)
                 }
             }
         )
     }
 
-
     private fun drawCard(cardHeight:Int){
-        var adapter = GridLayoutManager(cardHeight)
-        binding.grid.adapter = adapter
         binding.grid.layoutManager = GridLayoutManager(this, rowAndColumn)
     }
     private fun checkValidation(gridNumber: Double): Double{
@@ -63,4 +64,5 @@ class MainActivity : AppCompatActivity()  {
         val florValue = Math.floor(square)
         return if(square == florValue) florValue else 0.0
     }
+
 }

@@ -1,23 +1,21 @@
 package com.example.myapplication.adapter
 
 import android.view.LayoutInflater
-import android.view.SurfaceHolder
 import android.view.ViewGroup
 import android.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.databinding.GridItemBinding
-import java.text.FieldPosition
 
-class GridRecyclerView(val cardHeight: Int): ListAdapter<GridRecyclerView.ViewHolder>(ItemCallBack()){
+class GridRecyclerView(val cardHeight: Int): ListAdapter<GridRecyclerView.ViewHolder>(){
 
-    override fun  onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+      fun  onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
             GridItemBinding.inflate(LayoutInflater.from(parent.context),
                 parent, false), cardHeight
         )
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int){
+     fun onBindViewHolder(holder: ViewHolder, position: Int){
             let{
                 with(holder){
                     itemView.tag = this
@@ -33,7 +31,4 @@ class GridRecyclerView(val cardHeight: Int): ListAdapter<GridRecyclerView.ViewHo
         }
 
     }
-}
-
-private class ItemCallBack(){
 }
