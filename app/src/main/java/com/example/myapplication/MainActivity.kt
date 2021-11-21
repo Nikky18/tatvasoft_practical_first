@@ -1,19 +1,18 @@
 package com.example.myapplication
 
-import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.util.AttributeSet
-import android.view.View
-import android.widget.EditText
+import android.view.ViewTreeObserver
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.myapplication.databinding.ActivityMainBinding
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity()  {
 
     lateinit var binding: ActivityMainBinding
+    var rowAndColumn = 0
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -30,10 +29,33 @@ class MainActivity : AppCompatActivity()  {
 
             val gridLayoutNumber = checkValidation(gridNumber)
             Toast.makeText(this, "${gridLayoutNumber}", Toast.LENGTH_SHORT).show()
+
+            if(gridLayoutNumber != 0.0){
+                rowAndColumn = gridLayoutNumber.toInt()
+                drawGrid()
+            }
         }
     }
 
+    private fun drawGrid(){
+        binding.layout.viewTreeObserver.addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener{
+                override fun onGlobalLayout() {
+                    val frameLayout = binding.layout.measuredHeight
+                    val editContainer = binding.editTextContainer.height
+                    val cardHeight = (frameLayout - editContainer) / rowAndColumn
 
+                    binding.grid.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    drawCard(cardHeight)
+                }
+            }
+        )
+    }
+
+
+    private fun drawCard(cardHeight:Int){
+        binding.grid.layoutManager = GridLayoutManager(this, rowAndColumn)
+    }
     private fun checkValidation(gridNumber: Double): Double{
         val square = Math.sqrt(gridNumber)
         val florValue = Math.floor(square)
